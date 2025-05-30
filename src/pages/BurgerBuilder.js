@@ -3,7 +3,9 @@ import Burger from '../components/Burger/Burger';
 import BuildControls from '../components/BuildControls/BuildControls';
 import { INGREDIENTS, BASE_BURGER_PRICE } from '../constants';
 import Layout from '../components/Layout/Layout';
-// import Modal from '../components/UI/Modal/Modal'; // ЭТА СТРОКА УБРАНА
+import BurgerNameInput from '../components/BurgerNameInput/BurgerNameInput';
+import { database } from '../firebase';
+import { ref, push } from 'firebase/database';
 
 const calculateTotalPrice = (currentIngredients) => {
   let price = BASE_BURGER_PRICE;
@@ -23,7 +25,7 @@ const BurgerBuilder = () => {
 
   const [totalPrice, setTotalPrice] = useState(BASE_BURGER_PRICE);
   const [purchasable, setPurchasable] = useState(false);
-  // const [purchasing, setPurchasing] = useState(false); // ЭТО СОСТОЯНИЕ УБРАНО
+  const [burgerName, setBurgerName] = useState('');
 
   useEffect(() => {
     const updatedPrice = calculateTotalPrice(ingredients);
@@ -31,8 +33,8 @@ const BurgerBuilder = () => {
     const sum = Object.keys(ingredients)
       .map((key) => ingredients[key])
       .reduce((sum, el) => sum + el, 0);
-    setPurchasable(sum > 0);
-  }, [ingredients]);
+    setPurchasable(sum > 0 && burgerName.trim() !== '');
+  }, [ingredients, burgerName]);
 
   const addIngredientHandler = useCallback((type) => {
     setIngredients((prevIngredients) => {
@@ -55,14 +57,33 @@ const BurgerBuilder = () => {
     });
   }, []);
 
-  // const purchaseHandler = () => { setPurchasing(true); }; // ЭТА ФУНКЦИЯ УБРАНА
-  // const purchaseCancelHandler = () => { setPurchasing(false); }; // ЭТА ФУНКЦИЯ УБРАНА
+  const handleNameChange = useCallback((event) => {
+    setBurgerName(event.target.value);
+  }, []);
 
-  // Новая, простая функция, которая ничего не делает, пока не будет модального окна
-  const purchaseHandler = () => {
-    alert('Оформить заказ!'); // Простое сообщение
+  const addBurgerToMenuHandler = async () => {
+    const order = {
+      ingredients: ingredients,
+      price: totalPrice,
+      name: burgerName.trim(),
+      timestamp: new Date().toISOString(),
+    };
+
+    try {
+      const burgersRef = ref(database, 'burgers');
+      await push(burgersRef, order);
+      alert('Бургер добавлен в меню!');
+      setIngredients({
+        salad: 0,
+        bacon: 0,
+        cheese: 0,
+        meat: 0,
+      });
+      setBurgerName('');
+    } catch (error) {
+      alert('Ошибка при добавлении бургера: ' + error.message);
+    }
   };
-
 
   const disabledInfo = { ...ingredients };
   for (let key in disabledInfo) {
@@ -71,10 +92,6 @@ const BurgerBuilder = () => {
 
   return (
     <Layout>
-      {/* <Modal show={purchasing} modalClosed={purchaseCancelHandler}> */}
-        {/* Здесь был код модального окна, теперь его нет */}
-      {/* </Modal> */}
-
       <Burger ingredients={ingredients} />
 
       <BuildControls
@@ -82,8 +99,13 @@ const BurgerBuilder = () => {
         ingredientRemoved={removeIngredientHandler}
         disabledInfo={disabledInfo}
         price={totalPrice}
-        purchasable={purchasable}
-        orderNow={purchaseHandler}
+        purchasable={purchasable && burgerName.trim() !== ''}
+        orderNow={addBurgerToMenuHandler}
+        orderButtonText="ДОБАВИТЬ В МЕНЮ"
+      />
+      <BurgerNameInput
+        burgerName={burgerName}
+        onNameChange={handleNameChange}
       />
     </Layout>
   );
