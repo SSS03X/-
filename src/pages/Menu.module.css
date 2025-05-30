@@ -1,0 +1,59 @@
+.Menu {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.Menu h1 {
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    text-align: center;
+}
+
+.MenuItem {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 30px;
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.MenuItem h2 {
+    color: #703B09;
+    margin-top: 0;
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+.MenuItem .Price {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #4CAF50;
+    margin-top: 15px;
+}
+
+.MenuItem .Price strong {
+    color: #333;
+}
+
+.Loading, .Error, .NoBurgers {
+    font-size: 1.5em;
+    color: #555;
+    text-align: center;
+    padding: 50px;
+}
+
+.Error {
+    color: #D32F2F;
+}
