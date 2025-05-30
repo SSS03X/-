@@ -1,0 +1,80 @@
+.BreadBottom,
+.BreadTop,
+.Meat,
+.Cheese,
+.Salad,
+.Bacon {
+    width: 80%;
+    height: 20px;
+    margin: 2% auto;
+    border-radius: 15px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.19);
+}
+
+.BreadBottom {
+    height: 60px;
+    background: linear-gradient(#b38e6e, #d8ac85);
+    border-radius: 0 0 30px 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.19);
+}
+
+.BreadTop {
+    height: 70px;
+    background: linear-gradient(#d8ac85, #b38e6e);
+    border-radius: 30px 30px 0 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.19);
+}
+
+.Seeds1 {
+    width: 10%;
+    height: 15%;
+    position: absolute;
+    background-color: white;
+    left: 30%;
+    top: 50%;
+    border-radius: 40%;
+    transform: rotate(-20deg);
+    box-shadow: inset -1px -3px #c9c9c9;
+}
+
+.Seeds2 {
+    width: 10%;
+    height: 15%;
+    position: absolute;
+    background-color: white;
+    left: 60%;
+    top: 30%;
+    border-radius: 40%;
+    transform: rotate(10deg);
+    box-shadow: inset -1px -3px #c9c9c9;
+}
+
+.Meat {
+    height: 35px;
+    background: linear-gradient(#7f3608, #5c2706);
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.19);
+}
+
+.Cheese {
+    height: 18px;
+    background: linear-gradient(#f7d800, #c4a100);
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.19);
+}
+
+.Salad {
+    height: 25px;
+    background: linear-gradient(#578c2e, #89a848);
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.19);
+}
+
+.Bacon {
+    height: 12px;
+    background: linear-gradient(#bf3813, #a72813);
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.19);
+}
