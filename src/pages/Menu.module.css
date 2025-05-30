@@ -57,3 +57,19 @@
 .Error {
     color: #D32F2F;
 }
+
+.EditButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.EditButton:hover {
+    background-color: #0056b3;
+}
