@@ -8,10 +8,11 @@ const firebaseConfig = {
   storageBucket: "burger-c5b06.firebasestorage.app",
   messagingSenderId: "288963655402",
   appId: "1:288963655402:web:31607d09621c53e35b8993",
-  measurementId: "G-N2L45WMMSD"
+  measurementId: "G-N2L45WMMSD",
+  databaseURL: "https://burger-c5b06-default-rtdb.firebaseio.com"
 };
 
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-export { database };
+export { app, database };

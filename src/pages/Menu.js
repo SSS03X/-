@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react'; // Удален useCallback, т.к. не используется явно в этом файле
+import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout/Layout';
 import { database } from '../firebase';
 import { ref, onValue } from 'firebase/database';
 import classes from './Menu.module.css';
 import Burger from '../components/Burger/Burger';
-import PropTypes from 'prop-types'; // Оставляем, так как Burger его использует
-import { useNavigate } from 'react-router-dom'; // Импорт useNavigate для навигации
+import { useNavigate } from 'react-router-dom';
 
 const Menu = () => {
   const [burgers, setBurgers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // Инициализация хука для навигации
+  const navigate = useNavigate();
 
   useEffect(() => {
     const burgersRef = ref(database, 'burgers');
@@ -39,14 +38,11 @@ const Menu = () => {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [database]);
 
   const handleEdit = (burgerId) => {
-    navigate(`/edit-burger/${burgerId}`); // Перенаправление на страницу редактирования
+    navigate(`/edit-burger/${burgerId}`);
   };
-
-  // Комментарии и PropTypes убраны по твоему требованию (без комментариев)
-  // Но PropTypes все еще важны для типизации, мы их обсудим в конце.
 
   if (loading) {
     return (
@@ -82,12 +78,11 @@ const Menu = () => {
             <Burger ingredients={burger.ingredients} />
             <p className={classes.Price}>Цена: <strong>{burger.price.toFixed(2)} сомов</strong></p>
             <button
-              className={classes.EditButton} 
+              className={classes.EditButton}
               onClick={() => handleEdit(burger.id)}
             >
               Редактировать
             </button>
-            {}
           </div>
         ))}
       </div>

@@ -5,7 +5,7 @@ import { INGREDIENTS, BASE_BURGER_PRICE } from '../constants';
 import Layout from '../components/Layout/Layout';
 import BurgerNameInput from '../components/BurgerNameInput/BurgerNameInput';
 import { database } from '../firebase';
-import { ref, push, get, child, update } from 'firebase/database';
+import { ref, push, get, update } from 'firebase/database';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const calculateTotalPrice = (currentIngredients) => {
@@ -17,8 +17,8 @@ const calculateTotalPrice = (currentIngredients) => {
 };
 
 const BurgerBuilder = () => {
-  const { burgerId } = useParams(); // Получаем ID бургера из URL (если он есть)
-  const navigate = useNavigate(); // Для перенаправления после сохранения/обновления
+  const { burgerId } = useParams();
+  const navigate = useNavigate();
 
   const [ingredients, setIngredients] = useState({
     salad: 0,
@@ -30,9 +30,8 @@ const BurgerBuilder = () => {
   const [totalPrice, setTotalPrice] = useState(BASE_BURGER_PRICE);
   const [purchasable, setPurchasable] = useState(false);
   const [burgerName, setBurgerName] = useState('');
-  const [loading, setLoading] = useState(false); // Для загрузки данных при редактировании
+  const [loading, setLoading] = useState(false);
 
-  // Загрузка бургера для редактирования
   useEffect(() => {
     if (burgerId) {
       setLoading(true);
@@ -42,19 +41,18 @@ const BurgerBuilder = () => {
           const data = snapshot.val();
           setIngredients(data.ingredients || { salad: 0, bacon: 0, cheese: 0, meat: 0 });
           setBurgerName(data.name || '');
-          // totalPrice будет пересчитан в следующем useEffect
         } else {
           console.log("No data available for this burger ID");
-          navigate('/'); // Перенаправить, если бургер не найден
+          navigate('/');
         }
         setLoading(false);
       }).catch((error) => {
         console.error("Error fetching burger for edit:", error);
         setLoading(false);
-        navigate('/'); // Перенаправить при ошибке
+        navigate('/');
       });
     }
-  }, [burgerId, navigate]); // Зависимости: burgerId и navigate
+  }, [burgerId, navigate, database]);
 
   useEffect(() => {
     const updatedPrice = calculateTotalPrice(ingredients);
@@ -100,18 +98,15 @@ const BurgerBuilder = () => {
 
     try {
       if (burgerId) {
-        // Режим редактирования: обновляем существующий бургер
         const updates = {};
         updates[`/burgers/${burgerId}`] = burgerData;
         await update(ref(database), updates);
         alert('Бургер успешно обновлен!');
       } else {
-        // Режим создания: добавляем новый бургер
         const burgersRef = ref(database, 'burgers');
         await push(burgersRef, burgerData);
         alert('Бургер добавлен в меню!');
       }
-      // Сброс формы после успешного сохранения/обновления
       setIngredients({
         salad: 0,
         bacon: 0,
@@ -119,7 +114,7 @@ const BurgerBuilder = () => {
         meat: 0,
       });
       setBurgerName('');
-      navigate('/menu'); // Перенаправляем на страницу меню после сохранения
+      navigate('/menu');
     } catch (error) {
       alert('Ошибка: ' + error.message);
       console.error(error);
